@@ -5,6 +5,8 @@ Prerequisites
 
     Java Development Kit (JDK) 8 or later
     Maven
+    MySQL
+    IntelliJ IDEA
 
 Getting Started
 
@@ -80,3 +82,5 @@ This endpoint deletes a user with the specified ID.
     powershell
 
     Invoke-WebRequest -Uri "http://localhost:8080/api/users/1" -Method Delete
+    
+ Note:You need to connect to MySQL database   
