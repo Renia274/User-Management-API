@@ -8,29 +8,24 @@ Prerequisites
 
 Getting Started
 
-    Clone the repository:
+Clone the repository:
 
-bash
 
-git clone https://github.com/YourUsername/UserManagementAPI.git
+    git clone https://github.com/YourUsername/UserManagementAPI.git
 
-    Navigate to the project directory:
+Navigate to the project directory:
+        
+        cd UserManagementAPI
 
-bash
+Build the application using Maven:
 
-cd UserManagementAPI
+    mvn clean install
 
-    Build the application using Maven:
+Run the application:
 
-bash
-
-mvn clean install
-
-    Run the application:
-
-bash
-
-mvn spring-boot:run
+    mvn spring-boot:run
+    or 
+    run TestApplication
 
 The application will start on http://localhost:8080.
 API Endpoints
@@ -47,45 +42,41 @@ GET /api/users
 
 This endpoint retrieves all users from the database.
 
-Example request using PowerShell:
-
-powershell
-
-Invoke-WebRequest -Uri "http://localhost:8080/api/users"
+    Invoke-WebRequest -Uri "http://localhost:8080/api/users"
 
 POST /api/users
 
 This endpoint creates a new user.
 
-Example request using PowerShell:
+Make request using PowerShell:
 
-$body = @{
-    name = "John Doe"
-    email = "john.doe@example.com"
-}
+    $body = @{
+        name = "John Doe"
+        email = "john.doe@example.com"
+    }
 
-Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
+    Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
 PUT /api/users/{id}
 
 This endpoint updates an existing user with the specified ID.
 
-Example request using PowerShell:
+Update using PowerShell:
 
 
-$body = @{
-    name = "John Doe"
-    email = "john.doe@example.com"
-}
+    $body = @{
+        name = "John Doe"
+        email = "john.doe@example.com"
+    }
 
-Invoke-WebRequest -Uri "http://localhost:8080/api/users/1" -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json"
+    Invoke-WebRequest -Uri "http://localhost:8080/api/users/1" -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
 DELETE /api/users/{id}
 
 This endpoint deletes a user with the specified ID.
 
-Example request using PowerShell:
+    Delete using PowerShell:
 
-powershell
+    powershell
 
-Invoke-WebRequest -Uri "http://localhost:8080/api/users/1" -Method Delete
+    Invoke-WebRequest -Uri "http://localhost:8080/api/users/1" -Method Delete
