@@ -50,12 +50,13 @@ This endpoint retrieves all users from the database.
 Invoke-WebRequest -Uri "http://localhost:8080/api/users"
 
 
-
 ### GET /api/users/{id}
 
 This endpoint retrieves a user by their ID.
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}"
+
+php
 
 
 ### POST /api/users
@@ -71,8 +72,7 @@ $body = @{
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
-
-###PUT /api/users/{id}
+PUT /api/users/{id}
 
 This endpoint updates an existing user with the specified ID.
 
@@ -86,7 +86,7 @@ $body = @{
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
-###DELETE /api/users/{id}
+DELETE /api/users/{id}
 
 This endpoint deletes a user with the specified ID.
 
@@ -94,7 +94,7 @@ This endpoint deletes a user with the specified ID.
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Delete
 
-###Pagination
+Pagination
 
 The API supports pagination to retrieve users in smaller chunks. You can specify the page number and page size as query parameters.
 
@@ -102,7 +102,7 @@ Example:
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?page=0&size=10"
 
-###Filtering
+Filtering
 
 The API allows you to filter users based on specific criteria. You can use query parameters to specify the filter field and value.
 
@@ -110,7 +110,7 @@ Example:
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterValue=John"
 
-###Input Validation
+Input Validation
 
 The API includes input validation to ensure data integrity and consistency. The request payloads for creating or updating users are validated to ensure that required fields are present, data types are correct, and any constraints are satisfied.
 
