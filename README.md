@@ -113,8 +113,6 @@ Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterV
 
 ## Input Validation
 
-The API includes input validation to ensure data integrity and consistency. The request payloads for creating or updating users are validated to ensure that required fields are present, data types are correct, and any constraints are satisfied.
-
-If validation fails, appropriate error responses will be returned to the client.
+The API includes input validation. If validation fails, appropriate error responses will be returned to the client.
 
 Please ensure that you provide valid data when creating or updating users to avoid validation errors
