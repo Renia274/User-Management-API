@@ -14,15 +14,24 @@ This is a sample Spring Boot application that provides an API for managing user 
 1. Clone the repository:
 
    
-      git clone https://github.com/YourUsername/UserManagementAPI.git
 
-2. Navigate to the project directory:
 
-      cd UserManagementAPI
+   git clone https://github.com/YourUsername/UserManagementAPI.git
+   
 
-3. Build the application using Maven:
+3. Navigate to the project directory:
 
-      mvn clean install
+
+
+   cd UserManagementAPI
+   
+
+5. Build the application using Maven:
+
+
+
+    mvn clean install
+   
 
 4.Run the application:
 
@@ -41,12 +50,16 @@ This endpoint retrieves all users from the database.
    
    Invoke-WebRequest -Uri "http://localhost:8080/api/users"
 
+   
+
 GET /api/users/{id}
 
 This endpoint retrieves a user by their ID.
 
 
    Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}"
+
+   
 
 POST /api/users
 
@@ -62,6 +75,8 @@ This endpoint creates a new user.
    
    Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
+   
+
 PUT /api/users/{id}
 
 This endpoint updates an existing user with the specified ID.
@@ -76,11 +91,15 @@ This endpoint updates an existing user with the specified ID.
    
    Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
+   
+
 DELETE /api/users/{id}
 
 This endpoint deletes a user with the specified ID.
    
    Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Delete
+
+   
 
 Pagination
 
@@ -91,13 +110,17 @@ Example:
 
    Invoke-WebRequest -Uri "http://localhost:8080/api/users?page=0&size=10"
 
+   
+
 Filtering
 
 The API allows you to filter users based on specific criteria. You can use query parameters to specify the filter field and value.
 
 Example:
 
+
    Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterValue=John"
+   
 
 Input Validation
 
