@@ -89,7 +89,7 @@ The API supports pagination to retrieve users in smaller chunks. You can specify
 Example:
 
 
-Invoke-WebRequest -Uri "http://localhost:8080/api/users?page=0&size=10"
+   Invoke-WebRequest -Uri "http://localhost:8080/api/users?page=0&size=10"
 
 Filtering
 
@@ -97,7 +97,7 @@ The API allows you to filter users based on specific criteria. You can use query
 
 Example:
 
-Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterValue=John"
+   Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterValue=John"
 
 Input Validation
 
