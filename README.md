@@ -72,7 +72,7 @@ $body = @{
 Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
 
-PUT /api/users/{id}
+##PUT /api/users/{id}
 
 This endpoint updates an existing user with the specified ID.
 
@@ -86,7 +86,7 @@ $body = @{
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
-DELETE /api/users/{id}
+##DELETE /api/users/{id}
 
 This endpoint deletes a user with the specified ID.
 
