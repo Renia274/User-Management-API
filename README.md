@@ -1,86 +1,120 @@
-UserManagementAPI
+# User Management API
 
 This is a sample Spring Boot application that provides an API for managing user data.
-Prerequisites
 
-    Java Development Kit (JDK) 8 or later
-    Maven
-    MySQL
-    IntelliJ IDEA
+## Prerequisites
 
-Getting Started
+- Java Development Kit (JDK) 8 or later
+- Maven
+- MySQL
+- IntelliJ IDEA
 
-Clone the repository:
+## Getting Started
 
+1. Clone the repository:
 
-    git clone https://github.com/YourUsername/UserManagementAPI.git
+   ```bash
+   git clone https://github.com/YourUsername/UserManagementAPI.git
 
-Navigate to the project directory:
-        
-        cd UserManagementAPI
+    Navigate to the project directory:
+
+    bash
+
+cd UserManagementAPI
 
 Build the application using Maven:
 
-    mvn clean install
+bash
+
+mvn clean install
 
 Run the application:
 
-    mvn spring-boot:run
-    or 
-    run TestApplication
+bash
 
-The application will start on http://localhost:8080.
+    mvn spring-boot:run
+
+    The application will start on http://localhost:8080.
+
 API Endpoints
 
 The following API endpoints are available:
-
-    GET /api/users: Retrieve all users.
-    GET /api/users/{id}: Retrieve a user by their ID.
-    POST /api/users: Create a new user.
-    PUT /api/users/{id}: Update an existing user.
-    DELETE /api/users/{id}: Delete a user.
-
 GET /api/users
 
 This endpoint retrieves all users from the database.
 
-    Invoke-WebRequest -Uri "http://localhost:8080/api/users"
+powershell
+
+Invoke-WebRequest -Uri "http://localhost:8080/api/users"
+
+GET /api/users/{id}
+
+This endpoint retrieves a user by their ID.
+
+powershell
+
+Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}"
 
 POST /api/users
 
 This endpoint creates a new user.
 
-Make request using PowerShell:
+powershell
 
-    $body = @{
-        name = "John Doe"
-        email = "john.doe@example.com"
-    }
+$body = @{
+    name = "John Doe"
+    email = "john.doe@example.com"
+    password = "password123"
+}
 
-    Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
+Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
 PUT /api/users/{id}
 
 This endpoint updates an existing user with the specified ID.
 
-Update using PowerShell:
+powershell
 
+$body = @{
+    name = "John Doe"
+    email = "john.doe@example.com"
+    password = "newpassword456"
+}
 
-    $body = @{
-        name = "John Doe"
-        email = "john.doe@example.com"
-    }
-
-    Invoke-WebRequest -Uri "http://localhost:8080/api/users/1" -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json"
+Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
 DELETE /api/users/{id}
 
 This endpoint deletes a user with the specified ID.
 
-    Delete using PowerShell:
+powershell
 
-    powershell
+Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Delete
 
-    Invoke-WebRequest -Uri "http://localhost:8080/api/users/1" -Method Delete
-    
- Note:You need to connect to MySQL database   
+Pagination
+
+The API supports pagination to retrieve users in smaller chunks. You can specify the page number and page size as query parameters.
+
+Example:
+
+powershell
+
+Invoke-WebRequest -Uri "http://localhost:8080/api/users?page=0&size=10"
+
+Filtering
+
+The API allows you to filter users based on specific criteria. You can use query parameters to specify the filter field and value.
+
+Example:
+
+powershell
+
+Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterValue=John"
+
+Input Validation
+
+The API includes input validation to ensure data integrity and consistency. The request payloads for creating or updating users are validated to ensure that required fields are present, data types are correct, and any constraints are satisfied.
+
+If validation fails, appropriate error responses will be returned to the client.
+
+Please ensure that you provide valid data when creating or updating users to avoid validation errors.
