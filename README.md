@@ -13,24 +13,19 @@ This is a sample Spring Boot application that provides an API for managing user 
 
 1. Clone the repository:
 
-   ```bash
+   
    git clone https://github.com/YourUsername/UserManagementAPI.git
 
-    Navigate to the project directory:
+2. Navigate to the project directory:
 
-    bash
+   cd UserManagementAPI
 
-cd UserManagementAPI
+3. Build the application using Maven:
 
-Build the application using Maven:
+   mvn clean install
 
-bash
+4.Run the application:
 
-mvn clean install
-
-Run the application:
-
-bash
 
     mvn spring-boot:run
 
@@ -43,53 +38,49 @@ GET /api/users
 
 This endpoint retrieves all users from the database.
 
-powershell
-
-Invoke-WebRequest -Uri "http://localhost:8080/api/users"
+   
+   Invoke-WebRequest -Uri "http://localhost:8080/api/users"
 
 GET /api/users/{id}
 
 This endpoint retrieves a user by their ID.
 
-powershell
 
-Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}"
+   Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}"
 
 POST /api/users
 
 This endpoint creates a new user.
 
-powershell
 
-$body = @{
-    name = "John Doe"
-    email = "john.doe@example.com"
-    password = "password123"
-}
 
-Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
+   $body = @{
+       name = "John Doe"
+       email = "john.doe@example.com"
+       password = "password123"
+   }
+   
+   Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
 PUT /api/users/{id}
 
 This endpoint updates an existing user with the specified ID.
 
-powershell
 
-$body = @{
-    name = "John Doe"
-    email = "john.doe@example.com"
-    password = "newpassword456"
-}
-
-Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json"
+   
+   $body = @{
+       name = "John Doe"
+       email = "john.doe@example.com"
+       password = "newpassword456"
+   }
+   
+   Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
 DELETE /api/users/{id}
 
 This endpoint deletes a user with the specified ID.
-
-powershell
-
-Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Delete
+   
+   Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Delete
 
 Pagination
 
@@ -97,7 +88,6 @@ The API supports pagination to retrieve users in smaller chunks. You can specify
 
 Example:
 
-powershell
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?page=0&size=10"
 
@@ -106,8 +96,6 @@ Filtering
 The API allows you to filter users based on specific criteria. You can use query parameters to specify the filter field and value.
 
 Example:
-
-powershell
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterValue=John"
 
