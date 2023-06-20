@@ -72,7 +72,8 @@ $body = @{
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
-#PUT /api/users/{id}
+
+###PUT /api/users/{id}
 
 This endpoint updates an existing user with the specified ID.
 
