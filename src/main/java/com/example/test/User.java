@@ -1,6 +1,8 @@
 package com.example.test;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "users")
@@ -8,7 +10,13 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+
+    @NotEmpty(message = "Name is required")
     private String name;
+
+    @NotEmpty(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
     private String password;
 
