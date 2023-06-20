@@ -103,6 +103,16 @@ Example:
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?page=0&size=10"
 
+## Sorting
+
+Sorting
+
+The API allows you to sort users based on specific criteria. You can use query parameters to specify the sort field and order.
+
+Example:
+
+Invoke-WebRequest -Uri "http://localhost:8080/api/users?sortField=name&sortOrder
+
 ## Filtering
 
 The API allows you to filter users based on specific criteria. You can use query parameters to specify the filter field and value.
