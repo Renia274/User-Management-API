@@ -1,51 +1,49 @@
 package com.example.test;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
+public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController, ErrorHandler {
 
-    @RequestMapping("/error")
-    public ResponseEntity<ErrorResponse> handleError(HttpServletRequest request) {
-        Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
-        String message = (String) request.getAttribute("javax.servlet.error.message");
-        ErrorResponse errorResponse = new ErrorResponse(statusCode, message);
-        return new ResponseEntity<>(errorResponse, HttpStatus.valueOf(statusCode));
+    private final UserService userService;
+
+    @Autowired
+    public ErrorController(UserService userService) {
+        this.userService = userService;
     }
 
+    @GetMapping("/error")
+    public ResponseEntity<Page<User>> handleError() {
+        // Define the sorting and paging parameters
+        String sortField = "id";
+        String sortOrder = "asc";
+        int page = 0;
+        int size = 10;
 
+        // Create the sorting object
+        Sort.Direction direction = sortOrder.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sort = Sort.by(direction, sortField);
+
+        // Create the paging object
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        // Get the users from the service with pagination and sorting
+        Page<User> userPage = userService.getAllUsers("", pageable);
+
+        // Return the users in the response body with an OK status
+        return ResponseEntity.ok(userPage);
+    }
+
+    // Implement the getErrorPath() method required by the ErrorController interface
+    @Override
     public String getErrorPath() {
         return "/error";
     }
-
-    public static class ErrorResponse {
-        private int status;
-        private String message;
-
-        public ErrorResponse(int status, String message) {
-            this.status = status;
-            this.message = message;
-        }
-
-        public int getStatus() {
-            return status;
-        }
-
-        public void setStatus(int status) {
-            this.status = status;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-    }
 }
-

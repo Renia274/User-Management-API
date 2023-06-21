@@ -1,10 +1,10 @@
 package com.example.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-
 @Service
 public class UserService {
 
@@ -19,16 +19,21 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User registerUser(User user) {
-        return userRepository.save(user);
-    }
-
     public User getUserById(int id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public Page<User> getAllUsers(String filter, Pageable pageable) {
+        Specification<User> specification = (root, query, criteriaBuilder) -> {
+            // Add your filtering conditions based on the 'filter' parameter
+            // Example: filtering by name
+            if (!filter.isEmpty()) {
+                return criteriaBuilder.like(root.get("name"), "%" + filter + "%");
+            }
+            return null; // Return null if no filtering condition is applied
+        };
+
+        return userRepository.findAll(specification, pageable);
     }
 
     public void updateUser(User user) {
@@ -39,11 +44,5 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User authenticateUser(String name, String password) {
-        User user = userRepository.findByName(name);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        return null;
-    }
+
 }
