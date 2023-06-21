@@ -52,15 +52,16 @@ Invoke-WebRequest -Uri "http://localhost:8080/api/users"
 
 This endpoint retrieves a user by their ID.
 
+Example using PowerShell:
+
 Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}"
-
-
 
 
 ### POST /api/users
 
 This endpoint creates a new user.
 
+Example using PowerShell:
 
 $body = @{
    name = "John Doe"
@@ -75,7 +76,7 @@ Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($bo
 
 This endpoint updates an existing user with the specified ID.
 
-
+Example using PowerShell:
 
 $body = @{
    name = "John Doe"
@@ -89,7 +90,7 @@ Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Put -Body 
 
 This endpoint deletes a user with the specified ID.
 
-
+Example using PowerShell:
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Delete
 
@@ -97,7 +98,7 @@ Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Delete
 
 The API supports pagination to retrieve users in smaller chunks. You can specify the page number and page size as query parameters.
 
-Example:
+Example using PowerShell::
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?page=0&size=10"
 
@@ -107,7 +108,7 @@ Sorting
 
 The API allows you to sort users based on specific criteria. You can use query parameters to specify the sort field and order.
 
-Example:
+Example using PowerShell:
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?sortField=name&sortOrder
 
@@ -115,7 +116,7 @@ Invoke-WebRequest -Uri "http://localhost:8080/api/users?sortField=name&sortOrder
 
 The API allows you to filter users based on specific criteria. You can use query parameters to specify the filter field and value.
 
-Example:
+Example using PowerShell:
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterValue=John"
 
