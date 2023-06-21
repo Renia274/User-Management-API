@@ -1,6 +1,13 @@
 package com.example.test;
 
 public interface ErrorHandler {
-    // Get the path for handling errors
+
+    /**
+     * Returns the path for handling errors.
+     *
+     * @return The error path
+     */
     String getErrorPath();
+
 }
+

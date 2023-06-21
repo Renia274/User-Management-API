@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 @Service
 public class UserService {
 
@@ -16,17 +15,32 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    // Save a user to the database
+    /**
+     * Save a user.
+     *
+     * @param user The user object to be saved
+     */
     public void saveUser(User user) {
         userRepository.save(user);
     }
 
-    // Get a user by their ID
+    /**
+     * Get a user by ID.
+     *
+     * @param id The ID of the user to retrieve
+     * @return The user object if found, or null otherwise
+     */
     public User getUserById(int id) {
         return userRepository.findById(id).orElse(null);
     }
 
-    // Get all users based on a filtering condition and pagination
+    /**
+     * Get all users with filtering and pagination options.
+     *
+     * @param filter   The filter to apply to the username (default: "")
+     * @param pageable The pageable object for pagination and sorting
+     * @return The page containing the filtered users
+     */
     public Page<User> getAllUsers(String filter, Pageable pageable) {
         Specification<User> specification = (root, query, criteriaBuilder) -> {
             // Add your filtering conditions based on the 'filter' parameter
@@ -39,14 +53,21 @@ public class UserService {
         return userRepository.findAll(specification, pageable);
     }
 
-    // Update a user in the database
+    /**
+     * Update an existing user.
+     *
+     * @param user The updated user object
+     */
     public void updateUser(User user) {
         userRepository.save(user);
     }
 
-    // Delete a user from the database based on their ID
+    /**
+     * Delete a user by ID.
+     *
+     * @param id The ID of the user to delete
+     */
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
-
 }

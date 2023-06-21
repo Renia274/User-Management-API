@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -19,22 +18,50 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Create a new user.
+     *
+     * @param user The user object to be created
+     */
     @PostMapping
     public void createUser(@RequestBody User user) {
         userService.saveUser(user);
     }
 
+    /**
+     * Get a user by ID.
+     *
+     * @param id The ID of the user to retrieve
+     * @return The response entity containing the user if found, or a "Not Found" response otherwise
+     */
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id) {
-        return userService.getUserById(id);
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
+        User user = userService.getUserById(id);
+
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(user);
     }
 
+    /**
+     * Get all users with pagination, sorting, and filtering options.
+     *
+     * @param sortField The field to sort the users by (default: "id")
+     * @param sortOrder The sort order ("asc" for ascending, "desc" for descending; default: "asc")
+     * @param filter    The filter to apply to the user name (default: "")
+     * @param page      The page number (default: 0)
+     * @param size      The number of users per page (default: 10)
+     * @return The response entity containing the paginated list of users
+     */
     @GetMapping
-    public ResponseEntity<Page<User>> getAllUsers(@RequestParam(defaultValue = "id") String sortField,
-                                                  @RequestParam(defaultValue = "asc") String sortOrder,
-                                                  @RequestParam(defaultValue = "") String filter,
-                                                  @RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<Page<User>> getAllUsers(
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "asc") String sortOrder,
+            @RequestParam(defaultValue = "") String filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         Sort.Direction direction = sortOrder.equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort sort = Sort.by(direction, sortField);
         Pageable pageable = PageRequest.of(page, size, sort);
@@ -42,13 +69,23 @@ public class UserController {
         return ResponseEntity.ok(usersPage);
     }
 
-
+    /**
+     * Update an existing user.
+     *
+     * @param id   The ID of the user to update
+     * @param user The updated user object
+     */
     @PutMapping("/{id}")
     public void updateUser(@PathVariable int id, @RequestBody User user) {
         user.setId(id);
         userService.updateUser(user);
     }
 
+    /**
+     * Delete a user by ID.
+     *
+     * @param id The ID of the user to delete
+     */
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
