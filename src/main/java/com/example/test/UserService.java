@@ -3,9 +3,7 @@ package com.example.test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-Certainly! Here's the code snippet with comments added to explain the different parts of the code:
 
-java
 
 @Service
 public class UserService {
