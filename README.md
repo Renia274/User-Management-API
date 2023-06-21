@@ -125,4 +125,4 @@ Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterV
 
 The API includes input validation. If validation fails, appropriate error responses will be returned to the client.
 
-Please ensure that you provide valid data when creating or updating users to avoid validation errors.Also, you need to make a connection to MySQL server.  
+Please ensure that you provide valid data when creating or updating users to avoid validation errors.Also, you need to make a connection to your MySQL database.  
