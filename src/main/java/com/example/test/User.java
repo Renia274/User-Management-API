@@ -1,8 +1,8 @@
 package com.example.test;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -11,14 +11,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "Name is required")
+    @NotEmpty
     private String name;
 
-    @Email(message = "Invalid email address")
-    @NotEmpty(message = "Email is required")
+    @NotEmpty
+//    @Pattern(regexp = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@"
+//            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\[A-Za-z]{2,})$")
     private String email;
 
-    @NotEmpty(message = "Password is required")
+    @NotEmpty
+//    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,50}$")
+    private String username;
+
+    @NotEmpty
+//    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,50}$")
     private String password;
 
     public User() {
@@ -93,5 +99,18 @@ public class User {
      */
     public String getPassword() {
         return password;
+    }
+
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
