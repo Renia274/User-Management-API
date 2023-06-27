@@ -8,12 +8,15 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL
+    password VARCHAR(100) NOT NULL,
+    username VARCHAR(100) NOT NULL
 );
 
 -INSERT VAULES INTO USERS TABLE
-INSERT INTO users (username, password, name, email)
+INSERT INTO Users (ID, Name, Email, Password, Username)
 VALUES
-    ('john.doe', 'password123', 'John Doe', 'john.doe@example.com'),
-    ('jane.smith', 'password456', 'Jane Smith', 'jane.smith@example.com'),
-    ('bob.jones', 'password789', 'Bob Jones', 'bob.jones@example.com');
+    (2, 'Jane Smith', 'jane.smith@example.com', 'password456', 'janes174'),
+    (3, 'Bob Jones', 'bob.jones@example.com', 'password789', 'bobjones1'),
+    (4, 'John Doe', 'johndoe@example.com', 'password123', 'johndoe2'),
+    (5, 'John John', 'john@example.com', 'passwrd', 'johnjohn'),
+    (7, 'Jane Doe', 'janedoe@example.com', 'Password124', 'JaneDoe12');
