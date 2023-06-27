@@ -80,7 +80,9 @@ GET /api/users: Sorts users based on specific criteria. Use query parameters to 
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?sortField=name&sortOrder"
 
-## GET /api/users: Filters users based on specific criteria. Use query parameters to specify the filter field and value.
+##Filtering 
+
+GET /api/users: Filters users based on specific criteria. Use query parameters to specify the filter field and value.
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterValue=John"
 
