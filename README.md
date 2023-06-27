@@ -39,7 +39,8 @@ Invoke-WebRequest -Uri "http://localhost:8080/api/users"
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}"
 
-## POST /api/users: Creates a new user.
+## Create
+POST /api/users: Creates a new user.
 
 $body = @{
     name = "John Doe"
@@ -49,7 +50,9 @@ $body = @{
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users" -Method Post -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
-## PUT /api/users/{id}: Updates an existing user with the specified ID.
+## Update 
+
+PUT /api/users/{id}: Updates an existing user with the specified ID.
 
 $body = @{
     name = "John Doe"
@@ -59,15 +62,21 @@ $body = @{
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json"
 
-## DELETE /api/users/{id}: Deletes a user with the specified ID.
+## Delete
+
+DELETE /api/users/{id}: Deletes a user with the specified ID.
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}" -Method Delete
 
-## GET /api/users: Retrieves users with pagination. Specify the page number and page size as query parameters.
+## Pagination
+
+GET /api/users: Retrieves users with pagination. Specify the page number and page size as query parameters.
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?page=0&size=10"
 
-## GET /api/users: Sorts users based on specific criteria. Use query parameters to specify the sort field and order.
+## Sorting 
+
+GET /api/users: Sorts users based on specific criteria. Use query parameters to specify the sort field and order.
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users?sortField=name&sortOrder"
 
