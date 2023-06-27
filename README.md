@@ -35,7 +35,7 @@ The application will start on http://localhost:8080.
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users"
 
-GET /api/users/{id}: Retrieves a user by their ID.
+## GET /api/users/{id}: Retrieves a user by their ID.
 
 Invoke-WebRequest -Uri "http://localhost:8080/api/users/{id}"
 
