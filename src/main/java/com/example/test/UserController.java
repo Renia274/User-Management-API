@@ -1,8 +1,8 @@
 package com.example.test;
 
+
 import com.example.test.errors.PasswordPatternValidationException;
 import com.example.test.errors.UsernamePatternValidationException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,11 +13,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping({"/", "/api", "/api/users", "/api/users/insert"})
+
 public class UserController {
 
     private final UserService userService;
@@ -32,8 +33,13 @@ public class UserController {
      *
      * @param user The user object to be created
      */
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+
+
     @PostMapping("/insert")
-    public ResponseEntity<Object> createUser(@RequestBody @Valid User user, BindingResult bindingResult) throws PasswordPatternValidationException,UsernamePatternValidationException {
+    public ResponseEntity<Object> createUser(@RequestBody @Valid User user, BindingResult bindingResult) throws PasswordPatternValidationException, UsernamePatternValidationException {
         if (bindingResult.hasErrors()) {
             // Collect all field validation errors
             List<String> errors = new ArrayList<>();
@@ -54,7 +60,11 @@ public class UserController {
             throw new PasswordPatternValidationException("Invalid password format. It must contain at least one lowercase letter, one uppercase letter, one digit, and be between 8 and 50 characters long.");
         }
 
+        // Save the user and generate a token
         userService.saveUser(user);
+        String token = jwtTokenUtil.generateToken(user.getUsername());
+        user.setRefreshToken(token);
+
         return ResponseEntity.ok("User created successfully");
     }
 
@@ -123,3 +133,4 @@ public class UserController {
         userService.deleteUser(id);
     }
 }
+

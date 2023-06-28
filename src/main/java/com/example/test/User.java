@@ -1,7 +1,9 @@
 package com.example.test;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "users")
@@ -11,20 +13,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty
+    @Column(name = "refresh_token")
+    private String refreshToken;
+
+    @NotEmpty(message = "Name is required")
     private String name;
 
-    @NotEmpty
-//    @Pattern(regexp = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@"
-//            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\[A-Za-z]{2,})$")
+    @NotEmpty(message = "Email is required")
+    @Email(message = "Invalid email format")
     private String email;
 
-    @NotEmpty
-//    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,50}$")
+    @NotEmpty(message = "Username is required")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,50}$", message = "Invalid username format. It must contain at least one lowercase letter, one uppercase letter, one digit, and be between 8 and 50 characters long.")
     private String username;
 
-    @NotEmpty
-//    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,50}$")
+    @NotEmpty(message = "Password is required")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,50}$", message = "Invalid password format. It must contain at least one lowercase letter, one uppercase letter, one digit, and be between 8 and 50 characters long.")
     private String password;
 
     public User() {
@@ -38,69 +42,37 @@ public class User {
 
     // Getters and setters
 
-    /**
-     * Returns the ID of the user.
-     *
-     * @return The user ID
-     */
     public int getId() {
         return id;
     }
 
-    /**
-     * Sets the ID of the user.
-     *
-     * @param id The user ID
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     * Returns the name of the user.
-     *
-     * @return The username
-     */
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
     public String getName() {
         return name;
     }
 
-    /**
-     * Sets the name of the user.
-     *
-     * @param name The user name
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Returns the email of the user.
-     *
-     * @return The user email
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * Sets the email of the user.
-     *
-     * @param email The user email
-     */
     public void setEmail(String email) {
         this.email = email;
     }
-
-    /**
-     * Returns the password of the user.
-     *
-     * @return The user password
-     */
-    public String getPassword() {
-        return password;
-    }
-
 
     public String getUsername() {
         return username;
@@ -108,6 +80,10 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
