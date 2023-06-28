@@ -34,6 +34,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
      */
     User findByPassword(String password);
 
+    User findByUsername(String username);
+
     /**
      * Find all users based on the provided specification, with pagination.
      *

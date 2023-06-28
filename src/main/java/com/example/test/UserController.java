@@ -132,5 +132,34 @@ public class UserController {
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
     }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<Object> login(@RequestBody @Valid User user, BindingResult bindingResult) throws InvalidCredentialsException {
+        if (bindingResult.hasErrors()) {
+            // Collect all field validation errors
+            List<String> errors = new ArrayList<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.add(error.getDefaultMessage());
+            }
+
+            // Return the validation errors as a JSON response with a bad request status
+            return ResponseEntity.badRequest().body(errors);
+        }
+
+        // Perform login authentication using a custom query
+        boolean isValidCredentials = userService.customLogin(user.getUsername(), user.getPassword());
+
+        if (!isValidCredentials) {
+            throw new InvalidCredentialsException("Invalid username or password.");
+        }
+
+        // Generate a token for successful login
+        String token = jwtTokenUtil.generateToken(user.getUsername());
+
+        return ResponseEntity.ok(token);
+    }
+
+
 }
 

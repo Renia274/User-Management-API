@@ -70,4 +70,26 @@ public class UserService {
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
+
+    public boolean customLogin(String username, String password) {
+
+        // 1. Retrieve the user by username from the data source
+        User user = userRepository.findByUsername(username);
+
+        // 2. Check if the user exists
+        if (user == null) {
+            return false; // User not found
+        }
+
+        // 3. Compare the provided password with the stored password (consider using a secure password hashing mechanism)
+        if (!user.getPassword().equals(password)) {
+            return false; // Invalid password
+        }
+
+
+
+        return true; // Authentication successful
+    }
+
+
 }
