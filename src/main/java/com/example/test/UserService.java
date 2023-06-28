@@ -71,6 +71,10 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
     public boolean customLogin(String username, String password) {
 
         // 1. Retrieve the user by username from the data source

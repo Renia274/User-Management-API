@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping({"/", "/api", "/api/users", "/api/users/insert"})
 
@@ -26,6 +30,16 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Object> handleInvalidCredentialsException(InvalidCredentialsException ex) {
+        // Create a custom error response for InvalidCredentialsException
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("error", "Invalid credentials");
+        errorResponse.put("message", ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
     /**
@@ -155,9 +169,27 @@ public class UserController {
         }
 
         // Generate a token for successful login
-        String token = jwtTokenUtil.generateToken(user.getUsername());
+        String token = generateToken(user.getUsername());
 
-        return ResponseEntity.ok(token);
+        // Retrieve the user from the database
+        User authenticatedUser = userService.getUserByUsername(user.getUsername());
+
+        // Save the token to the user entity
+        authenticatedUser.setRefreshToken(token);
+        userService.updateUser(authenticatedUser);
+
+        // Create a response object that includes the token
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+
+        return ResponseEntity.ok(response);
+    }
+
+    // Utility method to generate a token
+    private String generateToken(String username) {
+        // Implement your token generation logic here
+        // This is just a placeholder implementation
+        return "generated_token_for_" + username;
     }
 
 
