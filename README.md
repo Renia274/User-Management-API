@@ -61,7 +61,7 @@ To create a new user, send a POST request to /api/users/insert with the user det
     Response
   
     {
-      "id": 456,
+      "id": 4,
       "username": "newuser",
       "email": "newuser@example.com"
     }
@@ -91,13 +91,13 @@ To create a new user, send a POST request to /api/users/insert with the user det
 To retrieve information about a specific user, send a GET request to /api/users/{id} where {id} is the user's identifier.
 Request
 
-    GET /api/users/123
+    GET /api/users/4
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     
     Response
     
     {
-      "id": 123,
+      "id": 4,
       "username": "exampleuser",
       "email": "exampleuser@example.com"
     }
@@ -108,7 +108,7 @@ To update the details of a specific user, send a PUT request to /api/users/{id} 
 
     Request
     
-    PUT /api/users/123
+    PUT /api/users/4
     Content-Type: application/json
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     
@@ -120,7 +120,7 @@ To update the details of a specific user, send a PUT request to /api/users/{id} 
     Response
     
     {
-      "id": 123,
+      "id": 1,
       "username": "updateduser",
       "email": "updateduser@example.com"
     }
@@ -130,14 +130,14 @@ To update the details of a specific user, send a PUT request to /api/users/{id} 
 To delete a specific user, send a DELETE request to /api/users/{id} where {id} is the user's identifier.
 Request
 
-    DELETE /api/users/123
+    DELETE /api/users/4
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     
     Response
     
     HTTP/1.1 204 No Content
     
-Please note that the actual request and response formats may differ based on your implementation. Also, all requests for endpoints ccan be done through PowerShell.
+Please note that the actual request and response formats may differ based on your implementation for this API. Also, all requests for endpoints ccan be done through PowerShell.
 
 
 ## Pagination
