@@ -46,7 +46,7 @@ Make sure to include the necessary request headers, request bodies, and authenti
 
 To create a new user, send a POST request to /api/users/insert with the user details in the request body.
 
-**Request**
+**Example Request:**
 
     POST /api/users/insert
     Content-Type: application/json
@@ -58,7 +58,7 @@ To create a new user, send a POST request to /api/users/insert with the user det
       "password": "password123"
     }
     
-**Response**
+**Example Response:**
   
     {
       "id": 4,
@@ -70,7 +70,7 @@ To create a new user, send a POST request to /api/users/insert with the user det
 
     To authenticate a user and obtain an access token, send a POST request to /login with the user's credentials in the request body.
     
-**Request**
+**Example Request:**
     
     POST /login
     Content-Type: application/json
@@ -80,21 +80,22 @@ To create a new user, send a POST request to /api/users/insert with the user det
       "password": "password123"
     }
     
-**Response**
+**Example Response:**
     
     {
-      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      "access_token": "generated_token_for_newuser"
     }
 
 ## Retrieve User Information (GET /api/users/{id})
 
 To retrieve information about a specific user, send a GET request to /api/users/{id} where {id} is the user's identifier.
-Request
+
+**Example Request:**
 
     GET /api/users/4
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     
-**Response**
+**Example Response:**
     
     {
       "id": 4,
@@ -146,7 +147,7 @@ Please note that the actual request and response formats may differ based on you
 
 You can retrieve a paginated and sorted list of all users using the following endpoint:
 
-**Endpoint:** `GET /api/users/custom`
+## GET /api/users/custom
 
 **Query Parameters:**
 - `page` (optional): The page number (default: 0).
@@ -154,11 +155,11 @@ You can retrieve a paginated and sorted list of all users using the following en
 - `sortField` (optional): The field by which to sort the results (default: "id").
 - `sortOrder` (optional): The sorting order, either "asc" (ascending) or "desc" (descending) (default: "asc").
 
-**Request:**
+**Example Request:**
 
 GET /api/users/custom?page=0&size=10&sortField=name&sortOrder=asc
 
-**Response:**
+**Example Response:**
 
     {
       "content": [
@@ -198,19 +199,32 @@ GET /api/users/custom?page=0&size=10&sortField=name&sortOrder=asc
 
 ## Filtering 
 
-## GET /api/users: Filters users based on specific criteria. Use query parameters to specify the filter field and value.
+Filtering Users (GET /api/users)
 
-Invoke-WebRequest -Uri "http://localhost:8080/api/users?filterField=name&filterValue=John"
+To filter users based on specific criteria, send a GET request to /api/users with query parameters to specify the filter field and value.
 
-## POST /api/users/insert: Creates a new user.
-    
-    $body = @{
-        name = "John Doe"
-        email = "john.doe@example.com"
-        password = "password123"
-    }
-    
-    Invoke-WebRequest -Uri "http://localhost:8080/api/users/insert" -Method Post
+**Example Request:**
+GET /api/users?filterField=name&filterValue=John
+
+**Example Response:**
+
+    [
+      {
+        "id": 1,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "username": "johndoe1",
+        "refresh_token": null
+      },
+      {
+        "id": 3,
+        "name": "John Smith",
+        "email": "john.smith@example.com",
+        "username": "johnsmith",
+        "refresh_token": "generated_token_for_johnsmith"
+      }
+    ]
+
     
 ## Input Validation
 
