@@ -158,10 +158,7 @@ You can retrieve a paginated and sorted list of all users using the following en
 
 GET /api/users/custom?page=0&size=10&sortField=name&sortOrder=asc
 
-
-
-
-**Response:**
+**Response**
 
     {
       "content": [
@@ -199,7 +196,7 @@ GET /api/users/custom?page=0&size=10&sortField=name&sortOrder=asc
     }
 
 
-##Filtering 
+## Filtering 
 
 ## GET /api/users: Filters users based on specific criteria. Use query parameters to specify the filter field and value.
 
