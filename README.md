@@ -138,8 +138,6 @@ To delete a specific user, send a DELETE request to /api/users/{id} where {id} i
 **Example Response**
     
     HTTP/1.1 204 No Content
-    
-Please note that the actual request and response formats may differ based on your implementation for this API. Also, all requests for endpoints ccan be done through PowerShell.
 
 
 ### Pagination and Sorting 
@@ -245,7 +243,8 @@ GET /api/users?filterField=name&filterValue=John
       }
     ]
 
-    
+Please note that the actual request and response formats may differ based on your implementation for this API. Also, all requests for endpoints ccan be done through PowerShell.  
+
 ## Input Validation
 
 The API includes input validation. If validation fails, appropriate error responses will be returned to the client.
