@@ -128,7 +128,7 @@ To update the details of a specific user, send a PUT request to /api/users/{id} 
 ## Delete a User (DELETE /api/users/{id})
 
 To delete a specific user, send a DELETE request to /api/users/{id} where {id} is the user's identifier.
-Request
+**Request**
 
     DELETE /api/users/4
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
@@ -140,17 +140,64 @@ Request
 Please note that the actual request and response formats may differ based on your implementation for this API. Also, all requests for endpoints ccan be done through PowerShell.
 
 
-## Pagination
+### Pagination and Sorting Endpoint
 
-## GET /api/users: Retrieves users with pagination. Specify the page number and page size as query parameters.
+### Get All Users with Pagination and Sorting
 
-    Invoke-WebRequest -Uri "http://localhost:8080/api/users?page=0&size=10"
+You can retrieve a paginated and sorted list of all users using the following endpoint:
 
-## Sorting 
+**Endpoint:** `GET /api/users/custom`
 
-## GET /api/users: Sorts users based on specific criteria. Use query parameters to specify the sort field and order.
+**Query Parameters:**
+- `page` (optional): The page number (default: 0).
+- `size` (optional): The number of users per page (default: 10).
+- `sortField` (optional): The field by which to sort the results (default: "id").
+- `sortOrder` (optional): The sorting order, either "asc" (ascending) or "desc" (descending) (default: "asc").
 
-    Invoke-WebRequest -Uri "http://localhost:8080/api/users?sortField=name&sortOrder"
+**Request**
+
+GET /api/users/custom?page=0&size=10&sortField=name&sortOrder=asc
+
+
+
+
+**Response:**
+
+    {
+      "content": [
+        {
+          "id": 1,
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "username": "johndoe123",
+          "refreshToken": "generated_token_for_johndoe123"
+        },
+        // More users...
+      ],
+      "pageable": {
+        "pageNumber": 0,
+        "pageSize": 10,
+        "sort": {
+          "sorted": true,
+          "unsorted": false,
+          "empty": false
+        }
+      },
+      "totalElements": 100,
+      "totalPages": 10,
+      "last": false,
+      "size": 10,
+      "number": 0,
+      "sort": {
+        "sorted": true,
+        "unsorted": false,
+        "empty": false
+      },
+      "numberOfElements": 10,
+      "first": true,
+      "empty": false
+    }
+
 
 ##Filtering 
 
