@@ -46,7 +46,7 @@ Make sure to include the necessary request headers, request bodies, and authenti
 
 To create a new user, send a POST request to /api/users/insert with the user details in the request body.
 
-    Request
+**Request**
 
     POST /api/users/insert
     Content-Type: application/json
@@ -58,7 +58,7 @@ To create a new user, send a POST request to /api/users/insert with the user det
       "password": "password123"
     }
     
-    Response
+**Response**
   
     {
       "id": 4,
@@ -70,7 +70,7 @@ To create a new user, send a POST request to /api/users/insert with the user det
 
     To authenticate a user and obtain an access token, send a POST request to /login with the user's credentials in the request body.
     
-    Request
+**Request**
     
     POST /login
     Content-Type: application/json
@@ -80,7 +80,7 @@ To create a new user, send a POST request to /api/users/insert with the user det
       "password": "password123"
     }
     
-    Response
+**Response**
     
     {
       "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -94,7 +94,7 @@ Request
     GET /api/users/4
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     
-    Response
+**Response**
     
     {
       "id": 4,
@@ -106,7 +106,7 @@ Request
 
 To update the details of a specific user, send a PUT request to /api/users/{id} where {id} is the user's identifier. Include the updated user information in the request body.
 
-    Request
+**Request:**
     
     PUT /api/users/4
     Content-Type: application/json
@@ -117,7 +117,7 @@ To update the details of a specific user, send a PUT request to /api/users/{id} 
       "email": "updateduser@example.com"
     }
     
-    Response
+**Response:**
     
     {
       "id": 1,
@@ -128,7 +128,7 @@ To update the details of a specific user, send a PUT request to /api/users/{id} 
 ## Delete a User (DELETE /api/users/{id})
 
 To delete a specific user, send a DELETE request to /api/users/{id} where {id} is the user's identifier.
-**Request**
+**Request:**
 
     DELETE /api/users/4
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
@@ -154,11 +154,11 @@ You can retrieve a paginated and sorted list of all users using the following en
 - `sortField` (optional): The field by which to sort the results (default: "id").
 - `sortOrder` (optional): The sorting order, either "asc" (ascending) or "desc" (descending) (default: "asc").
 
-**Request**
+**Request:**
 
 GET /api/users/custom?page=0&size=10&sortField=name&sortOrder=asc
 
-**Response**
+**Response:**
 
     {
       "content": [
