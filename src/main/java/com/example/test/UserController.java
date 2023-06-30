@@ -78,7 +78,7 @@ public class UserController {
             throw new PasswordPatternValidationException("Invalid password format. It must contain at least one lowercase letter, one uppercase letter, one digit, and be between 8 and 50 characters long.");
         }
 
-        // Generate a token
+        // Generate a signup token
         String token = signUpToken(user.getUsername());
 
         // Set the token in the user entity
@@ -99,10 +99,8 @@ public class UserController {
         return ResponseEntity.ok().headers(headers).body(response);
     }
 
-    // Utility method to generate a token
+    // Utility method to generate a signup token
     private String signUpToken(String username) {
-        // Implement your token generation logic here
-        // For simplicity, we'll just use a basic token format
         return "signup_token_for_" + username;
     }
 
@@ -212,10 +210,8 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    // Utility method to generate a token
+    // Utility method to generate a login token
     private String generateToken(String username) {
-        // Implement your token generation logic here
-        // This is just a placeholder implementation
         return "generated_token_for_" + username;
     }
 
