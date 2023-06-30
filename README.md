@@ -129,19 +129,20 @@ To update the details of a specific user, send a PUT request to /api/users/{id} 
 ## Delete a User (DELETE /api/users/{id})
 
 To delete a specific user, send a DELETE request to /api/users/{id} where {id} is the user's identifier.
-**Request:**
+
+**Example Request:**
 
     DELETE /api/users/4
     Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     
-    Response
+**Example Response**
     
     HTTP/1.1 204 No Content
     
 Please note that the actual request and response formats may differ based on your implementation for this API. Also, all requests for endpoints ccan be done through PowerShell.
 
 
-### Pagination and Sorting Endpoint
+### Pagination and Sorting 
 
 ### Get All Users with Pagination and Sorting
 
@@ -162,38 +163,57 @@ GET /api/users/custom?page=0&size=10&sortField=name&sortOrder=asc
 **Example Response:**
 
     {
-      "content": [
+    "content": [
         {
-          "id": 1,
-          "name": "John Doe",
-          "email": "john.doe@example.com",
-          "username": "johndoe123",
-          "refreshToken": "generated_token_for_johndoe123"
+            "id": 39,
+            "refreshToken": "signup_token_for_BobTest1",
+            "name": "bob",
+            "email": "bob1@example.com",
+            "username": "BobTest1",
+            "password": "Password679"
         },
-        // More users...
-      ],
-      "pageable": {
-        "pageNumber": 0,
-        "pageSize": 10,
-        "sort": {
-          "sorted": true,
-          "unsorted": false,
-          "empty": false
+        {
+            "id": 3,
+            "refreshToken": "generated_token_for_bobjones1",
+            "name": "Bob Jones",
+            "email": "bob.jones@example.com",
+            "username": "bobjones1",
+            "password": "password789"
+        },
+        {
+            "id": 2,
+            "refreshToken": null,
+            "name": "Jane Smith",
+            "email": "jane.smith@example.com",
+            "username": "janes174",
+            "password": "password456"
         }
-      },
-      "totalElements": 100,
-      "totalPages": 10,
-      "last": false,
-      "size": 10,
-      "number": 0,
-      "sort": {
+    ],
+    "pageable": {
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "offset": 0,
+        "pageSize": 10,
+        "pageNumber": 0,
+        "unpaged": false,
+        "paged": true
+    },
+    "last": true,
+    "totalPages": 1,
+    "totalElements": 3,
+    "size": 10,
+    "number": 0,
+    "sort": {
+        "empty": false,
         "sorted": true,
-        "unsorted": false,
-        "empty": false
-      },
-      "numberOfElements": 10,
-      "first": true,
-      "empty": false
+        "unsorted": false
+    },
+    "first": true,
+    "numberOfElements": 3,
+    "empty": false
     }
 
 
