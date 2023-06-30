@@ -22,7 +22,10 @@ public class UserService {
      */
     public void saveUser(User user) {
         userRepository.save(user);
+        // Add a log statement to see if the user is being saved
+        System.out.println("User saved: " + user);
     }
+
 
     /**
      * Get a user by ID.

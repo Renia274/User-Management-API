@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,9 @@ import java.util.Map;
 public class UserController {
 
     private final UserService userService;
+
+    // HashMap to store the tokens for users
+    private final Map<String, String> tokenMap = new HashMap<>();
 
     @Autowired
     public UserController(UserService userService) {
@@ -74,13 +78,36 @@ public class UserController {
             throw new PasswordPatternValidationException("Invalid password format. It must contain at least one lowercase letter, one uppercase letter, one digit, and be between 8 and 50 characters long.");
         }
 
-        // Save the user and generate a token
-        userService.saveUser(user);
-        String token = jwtTokenUtil.generateToken(user.getUsername());
+        // Generate a token
+        String token = signUpToken(user.getUsername());
+
+        // Set the token in the user entity
         user.setRefreshToken(token);
 
-        return ResponseEntity.ok("User created successfully");
+        // Save the user
+        userService.saveUser(user);
+
+        // Create the response object that includes the token
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+
+        // Create the response headers and set the token
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + token);
+
+        // Return the response with headers and a success message
+        return ResponseEntity.ok().headers(headers).body(response);
     }
+
+    // Utility method to generate a token
+    private String signUpToken(String username) {
+        // Implement your token generation logic here
+        // For simplicity, we'll just use a basic token format
+        return "signup_token_for_" + username;
+    }
+
+
+
 
 
 
