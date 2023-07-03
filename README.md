@@ -243,7 +243,7 @@ GET /api/users?filterField=name&filterValue=John
       }
     ]
 
-Please note that the actual request and response formats may differ based on your implementation for this API. Also, all requests for endpoints ccan be done through PowerShell.  
+Please note that the actual request and response formats may differ based on your implementation for this API. Furthermore, all requests for endpoints ccan be done through PowerShell.  
 
 ## Input Validation
 
