@@ -9,6 +9,16 @@ The User Management API is a RESTful web service that provides endpoints for man
 - MySQL
 - IntelliJ IDEA
 
+## Technologies Used
+- Java
+- Spring Framework (including Spring Boot, Spring MVC, Spring Security)
+- Hibernate (ORM - Object-Relational Mapping)
+- JDBC
+- JPA (Java Persistence API)
+- Tomcat 
+- Jakarta EE 
+- MySQL 
+
 ## Getting Started
 
 1. Clone the repository:
