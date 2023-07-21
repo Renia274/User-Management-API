@@ -16,10 +16,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.security.SecureRandom;
+import java.util.*;
 
 @RestController
 @RequestMapping({"/", "/api", "/api/users", "/api/users/insert"})
@@ -101,7 +99,11 @@ public class UserController {
 
     // Utility method to generate a signup token
     private String signUpToken(String username) {
-        return "signup_token_for_" + username;
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] randomBytes = new byte[8]; // You can adjust the token length as needed
+        secureRandom.nextBytes(randomBytes);
+        String randomToken = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+        return jwtTokenUtil.generateToken(randomToken); // Use JwtTokenUtil to sign the token
     }
 
 
@@ -212,9 +214,12 @@ public class UserController {
 
     // Utility method to generate a login token
     private String generateToken(String username) {
-        return "generated_token_for_" + username;
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] randomBytes = new byte[8]; // You can adjust the token length as needed
+        secureRandom.nextBytes(randomBytes);
+        String randomToken = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+        return jwtTokenUtil.generateToken(randomToken); // Use JwtTokenUtil to sign the token
     }
 
 
 }
-

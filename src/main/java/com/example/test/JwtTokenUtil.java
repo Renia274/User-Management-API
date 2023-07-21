@@ -17,6 +17,9 @@ public class JwtTokenUtil {
     @Value("${jwt.expiration}")
     private int expiration;
 
+    @Value("${jwt.algorithm}")
+    private String algorithm; // New property to read algorithm from application.properties
+
     public String generateToken(String subject) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration * 1000);
@@ -25,7 +28,7 @@ public class JwtTokenUtil {
                 .setSubject(subject)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(SignatureAlgorithm.forName(algorithm), secret)
                 .compact();
     }
 
