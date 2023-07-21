@@ -103,7 +103,17 @@ public class UserController {
         byte[] randomBytes = new byte[8]; // You can adjust the token length as needed
         secureRandom.nextBytes(randomBytes);
         String randomToken = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
-        return jwtTokenUtil.generateToken(randomToken); // Use JwtTokenUtil to sign the token
+
+        // Add hyphens after every 4 characters for readability
+        StringBuilder readableToken = new StringBuilder();
+        for (int i = 0; i < randomToken.length(); i += 4) {
+            readableToken.append(randomToken.substring(i, Math.min(i + 4, randomToken.length())));
+            if (i + 4 < randomToken.length()) {
+                readableToken.append("-");
+            }
+        }
+
+        return jwtTokenUtil.generateToken(readableToken.toString()); // Use JwtTokenUtil to sign the token
     }
 
 
@@ -218,7 +228,17 @@ public class UserController {
         byte[] randomBytes = new byte[8]; // You can adjust the token length as needed
         secureRandom.nextBytes(randomBytes);
         String randomToken = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
-        return jwtTokenUtil.generateToken(randomToken); // Use JwtTokenUtil to sign the token
+
+        // Add hyphens after every 4 characters for readability
+        StringBuilder readableToken = new StringBuilder();
+        for (int i = 0; i < randomToken.length(); i += 4) {
+            readableToken.append(randomToken.substring(i, Math.min(i + 4, randomToken.length())));
+            if (i + 4 < randomToken.length()) {
+                readableToken.append("-");
+            }
+        }
+
+        return jwtTokenUtil.generateToken(readableToken.toString()); // Use JwtTokenUtil to sign the token
     }
 
 
