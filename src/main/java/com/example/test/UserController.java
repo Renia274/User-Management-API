@@ -100,7 +100,7 @@ public class UserController {
     // Utility method to generate a signup token
     private String signUpToken(String username) {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] randomBytes = new byte[8]; // You can adjust the token length as needed
+        byte[] randomBytes = new byte[8]; // token length
         secureRandom.nextBytes(randomBytes);
         String randomToken = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
 
@@ -113,7 +113,7 @@ public class UserController {
             }
         }
 
-        return jwtTokenUtil.generateToken(readableToken.toString()); // Use JwtTokenUtil to sign the token
+        return jwtTokenUtil.generateToken(readableToken.toString()); // return signed token
     }
 
 
@@ -225,7 +225,7 @@ public class UserController {
     // Utility method to generate a login token
     private String generateToken(String username) {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] randomBytes = new byte[8]; // You can adjust the token length as needed
+        byte[] randomBytes = new byte[8]; // token length
         secureRandom.nextBytes(randomBytes);
         String randomToken = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
 
@@ -238,7 +238,7 @@ public class UserController {
             }
         }
 
-        return jwtTokenUtil.generateToken(readableToken.toString()); // Use JwtTokenUtil to sign the token
+        return jwtTokenUtil.generateToken(readableToken.toString()); // return the signed token
     }
 
 
