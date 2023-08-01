@@ -29,6 +29,8 @@ public class UserController {
     // HashMap to store the tokens for users
     private final Map<String, String> tokenMap = new HashMap<>();
 
+    private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
+
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
@@ -89,9 +91,12 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         response.put("token", token);
 
-        // Create the response headers and set the token
+        // Set a custom message in the token
+        response.put("message", "User created successfully.");
+
+        // Create the response headers and set the token with the Authorization header
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token);
+        headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + token);
 
         // Return the response with headers and a success message
         return ResponseEntity.ok().headers(headers).body(response);
@@ -115,9 +120,6 @@ public class UserController {
 
         return jwtTokenUtil.generateToken(readableToken.toString()); // return signed token
     }
-
-
-
 
 
 
@@ -208,18 +210,19 @@ public class UserController {
         // Generate a token for successful login
         String token = generateToken(user.getUsername());
 
-        // Retrieve the user from the database
-        User authenticatedUser = userService.getUserByUsername(user.getUsername());
-
-        // Save the token to the user entity
-        authenticatedUser.setRefreshToken(token);
-        userService.updateUser(authenticatedUser);
-
-        // Create a response object that includes the token
+        // Create the response object that includes the token
         Map<String, Object> response = new HashMap<>();
         response.put("token", token);
 
-        return ResponseEntity.ok(response);
+        // Set a custom message in the token
+        response.put("message", "Login successful.");
+
+        // Create the response headers and set the token with the Authorization header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + token);
+
+        // Return the response with headers and a success message
+        return ResponseEntity.ok().headers(headers).body(response);
     }
 
     // Utility method to generate a login token
