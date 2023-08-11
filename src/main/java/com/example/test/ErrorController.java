@@ -41,7 +41,6 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
         try {
             // Create a Specification object to define filtering conditions
             Specification<User> specification = (root, query, criteriaBuilder) -> {
-                // Add your filtering conditions based on the 'filter' parameter
                 if (!filter.isEmpty()) {
                     return criteriaBuilder.like(root.get("name"), "%" + filter + "%");
                 }
