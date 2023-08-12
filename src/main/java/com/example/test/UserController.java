@@ -29,7 +29,9 @@ public class UserController {
     // HashMap to store the tokens for users
     private final Map<String, String> tokenMap = new HashMap<>();
 
+
     private static final String AUTHORIZATION_HEADER_NAME = "Authorization";
+
 
     @Autowired
     public UserController(UserService userService) {
@@ -205,6 +207,13 @@ public class UserController {
         userService.deleteUser(id);
     }
 
+    /**
+     * Perform user login and return an access token.
+     *
+     * @param user The user object containing the username and password
+     * @param bindingResult The binding result for validation
+     * @return ResponseEntity with a JSON response containing the access token or a 401 Unauthorized response
+     */
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -221,9 +230,25 @@ public class UserController {
         // Perform login authentication using a custom query
         boolean isValidCredentials = userService.customLogin(user.getUsername(), user.getPassword());
 
+        // Check if the user already has a token (assuming the token is stored in tokenMap)
+        String existingToken = tokenMap.get(user.getUsername());
+
+        // Check if the existing token is still valid
+        if (existingToken != null && jwtTokenUtil.validateToken(existingToken)) {
+            // User already has a valid token, return the existing token
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", existingToken);
+            response.put("message", "Login successful using existing token.");
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + existingToken);
+            return ResponseEntity.ok().headers(headers).body(response);
+        }
+
+        // Generate a token for successful login or invalid credentials
+        String newToken = generateToken(user.getUsername(), false); // Generate a token without base64 and hyphen readability
+
         if (!isValidCredentials) {
-            // Invalid credentials, generate a new token and return it in the response
-            String newToken = generateToken(user.getUsername(), true); // Generate a new token with base64 and hyphen readability
+            // Invalid credentials, update the token and return it in the response
             tokenMap.put(user.getUsername(), newToken);
 
             Map<String, Object> response = new HashMap<>();
@@ -234,42 +259,26 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(headers).body(response);
         }
 
-        // Check if the user already has a token (assuming the token is stored in tokenMap)
-        String existingToken = tokenMap.get(user.getUsername());
+        // Successful login, update the token and return it in the response
+        tokenMap.put(user.getUsername(), newToken);
 
-        if (existingToken != null) {
-            // User already has a token, return the existing token
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", existingToken);
-            response.put("message", "Login successful using existing token.");
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + existingToken);
-            return ResponseEntity.ok().headers(headers).body(response);
-        } else {
-            // Generate a token for successful login
-            String token = generateToken(user.getUsername(), false); // Generate a token without base64 and hyphen readability
+        // Create the response object that includes the token
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", newToken);
+        response.put("message", "Login successful.");
 
-            // Store the token in the tokenMap
-            tokenMap.put(user.getUsername(), token);
+        // Create the response headers and set the token with the Authorization header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + newToken);
 
-            // Create the response object that includes the token
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", token);
-            response.put("message", "Login successful.");
-
-            // Create the response headers and set the token with the Authorization header
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + token);
-
-            // Return the response with headers and a success message
-            return ResponseEntity.ok().headers(headers).body(response);
-        }
+        // Return the response with headers and a success message
+        return ResponseEntity.ok().headers(headers).body(response);
     }
 
     // Utility method to generate a login token with base64 and hyphen readability
     private String generateToken(String username, boolean useBase64WithHyphens) {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] randomBytes = new byte[16]; // token length (16 bytes for better security)
+        byte[] randomBytes = new byte[6]; // token length (16 bytes for better security)
         secureRandom.nextBytes(randomBytes);
         String randomToken = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
 
@@ -288,8 +297,4 @@ public class UserController {
             return jwtTokenUtil.generateToken(randomToken);
         }
     }
-
-
-
-
 }
