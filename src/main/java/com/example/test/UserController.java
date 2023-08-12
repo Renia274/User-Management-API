@@ -140,6 +140,25 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+
+    /**
+     * Check if a token exists in the tokenMap.
+     *
+     * @param token The token to check
+     * @return ResponseEntity with a JSON response indicating token existence or a 401 Unauthorized response
+     */
+    @GetMapping("/token/check")
+    public ResponseEntity<Object> checkToken(@RequestParam String token) {
+        if (tokenMap.containsKey(token)) {
+            // Token exists, return a JSON response indicating success
+            // You can also return additional information if needed
+            return ResponseEntity.ok().body("Token exists");
+        } else {
+            // Token doesn't exist, return 401 Unauthorized status
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token does not exist or is expired");
+        }
+    }
+
     /**
      * Get all users with pagination, sorting, and filtering options.
      *
@@ -186,9 +205,8 @@ public class UserController {
         userService.deleteUser(id);
     }
 
-
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody @Valid User user, BindingResult bindingResult) throws InvalidCredentialsException {
+    public ResponseEntity<Object> login(@RequestBody @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // Collect all field validation errors
             List<String> errors = new ArrayList<>();
@@ -204,45 +222,74 @@ public class UserController {
         boolean isValidCredentials = userService.customLogin(user.getUsername(), user.getPassword());
 
         if (!isValidCredentials) {
-            throw new InvalidCredentialsException("Invalid username or password.");
+            // Invalid credentials, generate a new token and return it in the response
+            String newToken = generateToken(user.getUsername(), true); // Generate a new token with base64 and hyphen readability
+            tokenMap.put(user.getUsername(), newToken);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", newToken);
+            response.put("message", "Invalid credentials. New token generated.");
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + newToken);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(headers).body(response);
         }
 
-        // Generate a token for successful login
-        String token = generateToken(user.getUsername());
+        // Check if the user already has a token (assuming the token is stored in tokenMap)
+        String existingToken = tokenMap.get(user.getUsername());
 
-        // Create the response object that includes the token
-        Map<String, Object> response = new HashMap<>();
-        response.put("token", token);
+        if (existingToken != null) {
+            // User already has a token, return the existing token
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", existingToken);
+            response.put("message", "Login successful using existing token.");
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + existingToken);
+            return ResponseEntity.ok().headers(headers).body(response);
+        } else {
+            // Generate a token for successful login
+            String token = generateToken(user.getUsername(), false); // Generate a token without base64 and hyphen readability
 
-        // Set a custom message in the token
-        response.put("message", "Login successful.");
+            // Store the token in the tokenMap
+            tokenMap.put(user.getUsername(), token);
 
-        // Create the response headers and set the token with the Authorization header
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + token);
+            // Create the response object that includes the token
+            Map<String, Object> response = new HashMap<>();
+            response.put("token", token);
+            response.put("message", "Login successful.");
 
-        // Return the response with headers and a success message
-        return ResponseEntity.ok().headers(headers).body(response);
+            // Create the response headers and set the token with the Authorization header
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + token);
+
+            // Return the response with headers and a success message
+            return ResponseEntity.ok().headers(headers).body(response);
+        }
     }
 
-    // Utility method to generate a login token
-    private String generateToken(String username) {
+    // Utility method to generate a login token with base64 and hyphen readability as needed
+    private String generateToken(String username, boolean useBase64WithHyphens) {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] randomBytes = new byte[8]; // token length
+        byte[] randomBytes = new byte[16]; // token length (16 bytes for better security)
         secureRandom.nextBytes(randomBytes);
         String randomToken = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
 
-        // Add hyphens after every 4 characters for readability
+        // Add hyphens after every 4 characters for readability if requested
         StringBuilder readableToken = new StringBuilder();
-        for (int i = 0; i < randomToken.length(); i += 4) {
-            readableToken.append(randomToken.substring(i, Math.min(i + 4, randomToken.length())));
-            if (i + 4 < randomToken.length()) {
-                readableToken.append("-");
+        if (useBase64WithHyphens) {
+            for (int i = 0; i < randomToken.length(); i += 4) {
+                readableToken.append(randomToken.substring(i, Math.min(i + 4, randomToken.length())));
+                if (i + 4 < randomToken.length()) {
+                    readableToken.append("-");
+                }
             }
+            return jwtTokenUtil.generateToken(readableToken.toString()); // return the signed token
+        } else {
+            // If not using base64 with hyphens, return the original base64 encoded token
+            return jwtTokenUtil.generateToken(randomToken);
         }
-
-        return jwtTokenUtil.generateToken(readableToken.toString()); // return the signed token
     }
+
+
 
 
 }
