@@ -266,7 +266,7 @@ public class UserController {
         }
     }
 
-    // Utility method to generate a login token with base64 and hyphen readability as needed
+    // Utility method to generate a login token with base64 and hyphen readability
     private String generateToken(String username, boolean useBase64WithHyphens) {
         SecureRandom secureRandom = new SecureRandom();
         byte[] randomBytes = new byte[16]; // token length (16 bytes for better security)

@@ -93,8 +93,6 @@ public class UserService {
             return false; // Invalid password
         }
 
-
-
         return true; // Authentication successful
     }
 
