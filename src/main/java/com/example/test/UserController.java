@@ -153,7 +153,6 @@ public class UserController {
     public ResponseEntity<Object> checkToken(@RequestParam String token) {
         if (tokenMap.containsKey(token)) {
             // Token exists, return a JSON response indicating success
-            // You can also return additional information if needed
             return ResponseEntity.ok().body("Token exists");
         } else {
             // Token doesn't exist, return 401 Unauthorized status
