@@ -152,10 +152,10 @@ public class UserController {
     @GetMapping("/token/check")
     public ResponseEntity<Object> checkToken(@RequestParam String token) {
         if (tokenMap.containsKey(token)) {
-            // Token exists, return a JSON response indicating success
+            // return a JSON response indicating success
             return ResponseEntity.ok().body("Token exists");
         } else {
-            // Token doesn't exist, return 401 Unauthorized status
+            // return 401 Unauthorized status
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token does not exist or is expired");
         }
     }
