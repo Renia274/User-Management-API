@@ -176,7 +176,7 @@ If the token does not exist or has expired:
 
 ### Get All Users with Pagination and Sorting
 
-You can retrieve a paginated and sorted list of all users using the following endpoint:
+You can retrieve a paginated and sorted list of all users using the **/api/users/custom** endpoint:
 
 ## GET /api/users/custom
 
