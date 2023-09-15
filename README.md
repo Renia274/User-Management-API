@@ -39,7 +39,7 @@ mvn spring-boot:run
 
 The application will start on http://localhost:8080.
 
-Usage
+## Usage
 
 To use the User Management API, you can send HTTP requests to the provided endpoints using a tool like Postman. The API supports the following HTTP methods:
 
@@ -148,6 +148,28 @@ To delete a specific user, send a DELETE request to /api/users/{id} where {id} i
 **Example Response**
     
     HTTP/1.1 204 No Content
+    
+## Check Token Existence (GET /api/users/token/check)
+
+To check if a token exists in the tokenMap, send a GET request to /api/users/token/check with the token parameter in the query string.
+
+**Example Request**
+
+    GET /api/users/token/check?token=your_token_here
+
+**Example Response**
+
+If the token exists:
+    
+    {
+      "message": "Token exists"
+    }
+
+If the token does not exist or has expired:
+
+    {
+      "message": "Token does not exist or is expired"
+    }
 
 
 ### Pagination and Sorting 
