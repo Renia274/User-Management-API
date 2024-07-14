@@ -93,7 +93,7 @@ To create a new user, send a POST request to /api/users/insert with the user det
 **Example Response:**
     
     {
-      "access_token": "generated_token_for_newuser"
+      "access_token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc1M4LUVrcUgtRnRBIiwiaWF0IjoxNzIwOTcwMjIzLCJleHAiOjE3MjA5NzAzNDN9.VcWDBkJhPPvMX872sfaSrMMyZKVsPJiAVbKJ7A3jjt8"
     }
 
 ## Retrieve User Information (GET /api/users/{id})
