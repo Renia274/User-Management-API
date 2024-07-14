@@ -18,7 +18,7 @@ public class JwtTokenUtil {
     private int expiration;
 
     @Value("${jwt.algorithm}")
-    private String algorithm; // New property to read algorithm from application.properties
+    private String algorithm; 
 
     public String generateToken(String subject) {
         Date now = new Date();
