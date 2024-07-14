@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +59,10 @@ public class UserController {
 
 
 
-    @PostMapping("/insert")
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @PostMapping("api/users/insert")
     public ResponseEntity<Object> createUser(@RequestBody @Valid User user, BindingResult bindingResult) throws PasswordPatternValidationException, UsernamePatternValidationException {
         if (bindingResult.hasErrors()) {
             // Collect all field validation errors
@@ -79,33 +83,33 @@ public class UserController {
         if (!user.getPassword().matches("^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,50}$")) {
             throw new PasswordPatternValidationException("Invalid password format. It must contain at least one lowercase letter, one uppercase letter, one digit, and be between 8 and 50 characters long.");
         }
-
+        
         // Generate a signup token
-        String token = signUpToken(user.getUsername());
+        String signUpToken = generateSignUpToken(user.getUsername());
 
-        // Set the token in the user entity
-        user.setRefreshToken(token);
+        // Set the token in the user entity 
+        user.setRefreshToken(signUpToken);
 
         // Save the user
         userService.saveUser(user);
 
         // Create the response object that includes the token
         Map<String, Object> response = new HashMap<>();
-        response.put("token", token);
+        response.put("token", signUpToken);
 
         // Set a custom message in the token
         response.put("message", "User created successfully.");
 
         // Create the response headers and set the token with the Authorization header
         HttpHeaders headers = new HttpHeaders();
-        headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + token);
+        headers.add(AUTHORIZATION_HEADER_NAME, "Bearer " + signUpToken);
 
         // Return the response with headers and a success message
         return ResponseEntity.ok().headers(headers).body(response);
     }
 
     // Utility method to generate a signup token
-    private String signUpToken(String username) {
+    private String generateSignUpToken(String username) {
         SecureRandom secureRandom = new SecureRandom();
         byte[] randomBytes = new byte[8]; // token length
         secureRandom.nextBytes(randomBytes);
