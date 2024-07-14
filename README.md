@@ -121,11 +121,13 @@ To update the details of a specific user, send a PUT request to /api/users/{id} 
     
     PUT /api/users/4
     Content-Type: application/json
-    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+  
     
     {
-      "username": "updateduser",
-      "email": "updateduser@example.com"
+      "name": "Test22",
+      "username": "TestUser123",
+      "email": "test12@example.com",
+      "password": "Password1234"
     }
     
 **Response:**
