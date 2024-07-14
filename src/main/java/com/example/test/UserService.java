@@ -4,15 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -21,9 +24,10 @@ public class UserService {
      * @param user The user object to be saved
      */
     public void saveUser(User user) {
+        // Encrypt password before saving
+        String encryptedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptedPassword);
         userRepository.save(user);
-        // Add a log statement to see if the user is being saved
-        System.out.println("User saved: " + user);
     }
 
 
@@ -78,22 +82,16 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+
     public boolean customLogin(String username, String password) {
-
-        // 1. Retrieve the user by username from the data source
+        // Retrieve user from database
         User user = userRepository.findByUsername(username);
-
-        // 2. Check if the user exists
         if (user == null) {
             return false; // User not found
         }
 
-        // 3. Compare the provided password with the stored password (consider using a secure password hashing mechanism)
-        if (!user.getPassword().equals(password)) {
-            return false; // Invalid password
-        }
-
-        return true; // Authentication successful
+        // Compare provided password with stored hashed password
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
 
