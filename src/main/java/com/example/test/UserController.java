@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.security.SecureRandom;
 import java.util.*;
@@ -281,7 +280,7 @@ public class UserController {
     // Utility method to generate a login token with base64 and hyphen readability
     private String generateToken(String username, boolean useBase64WithHyphens) {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] randomBytes = new byte[6]; // token length (16 bytes for better security)
+        byte[] randomBytes = new byte[16];
         secureRandom.nextBytes(randomBytes);
         String randomToken = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
 
@@ -302,39 +301,60 @@ public class UserController {
     }
 
 
+
+
     @PostMapping("/forgot-password")
     public ResponseEntity<Object> forgotPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");
+        String newPassword = request.get("password");
+
         User user = userService.getUserByEmail(email);
 
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with the provided email not found.");
+            return ResponseEntity.notFound().build();
         }
 
-        // Generate a reset token
-        String resetToken = generateForgotToken(user.getUsername());
+        // Encode the new password
+        String encodedPassword = passwordEncoder.encode(newPassword);
 
-        // Store the reset token with the user's email
-        tokenMap.put(resetToken, user.getEmail());
+        // Generate a reset token with hyphen readability
+        String resetToken = generateResetToken(true);
 
-        // For simplicity, just print the token (you can implement email sending later)
-        System.out.println("Password reset token for " + email + ": " + resetToken);
+        // Store the reset token and encoded password in the user entity
+        user.setResetToken(resetToken);
+        user.setPassword(encodedPassword);
 
-        return ResponseEntity.ok("Password reset token generated.");
+        // Save the updated user entity
+        userService.saveUser(user);
+
+        // Return the reset token in the response
+        Map<String, Object> response = new HashMap<>();
+        response.put("resetToken", resetToken);
+
+        return ResponseEntity.ok(response);
     }
 
- 
-    private String generateForgotToken(String username) {
+
+    private String generateResetToken(boolean useBase64WithHyphens) {
         SecureRandom secureRandom = new SecureRandom();
-        byte[] randomBytes = new byte[6];
+        byte[] randomBytes = new byte[16];
         secureRandom.nextBytes(randomBytes);
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+        String randomToken = Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+
+        // Add hyphens after every 4 characters for readability
+        StringBuilder readableToken = new StringBuilder();
+        if (useBase64WithHyphens) {
+            for (int i = 0; i < randomToken.length(); i += 4) {
+                readableToken.append(randomToken.substring(i, Math.min(i + 4, randomToken.length())));
+                if (i + 4 < randomToken.length()) {
+                    readableToken.append("-");
+                }
+            }
+            return jwtTokenUtil.generateToken(readableToken.toString()); // Return signed token
+        } else {
+            return jwtTokenUtil.generateToken(randomToken); // Return original token
+        }
     }
-
-
-
-
-
 
 
 }
