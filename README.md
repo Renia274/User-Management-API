@@ -96,6 +96,24 @@ To create a new user, send a POST request to /api/users/insert with the user det
       "access_token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc1M4LUVrcUgtRnRBIiwiaWF0IjoxNzIwOTcwMjIzLCJleHAiOjE3MjA5NzAzNDN9.VcWDBkJhPPvMX872sfaSrMMyZKVsPJiAVbKJ7A3jjt8"
     }
 
+    
+## Forgot Password (POST /api/users/forgot-password)
+
+To initiate the process of resetting a user's password, send a POST request to /api/users/forgot-password with the user's email address and password in the request body.
+
+**Example Request:**
+
+    POST /api/users/forgot-password
+    Content-Type: application/json
+    
+    {
+      "email": "user@example.com"
+      "password":""
+    }  
+**Example Response:**
+
+
+
 ## Retrieve User Information (GET /api/users/{id})
 
 To retrieve information about a specific user, send a GET request to /api/users/{id} where {id} is the user's identifier.
@@ -103,7 +121,6 @@ To retrieve information about a specific user, send a GET request to /api/users/
 **Example Request:**
 
     GET /api/users/4
-    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     
 **Example Response:**
     
@@ -145,7 +162,6 @@ To delete a specific user, send a DELETE request to /api/users/{id} where {id} i
 **Example Request:**
 
     DELETE /api/users/4
-    Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
     
 **Example Response**
     
@@ -198,7 +214,7 @@ GET /api/users/custom?page=0&size=10&sortField=name&sortOrder=asc
     "content": [
         {
             "id": 39,
-            "refreshToken": "signup_token_for_BobTest1",
+            "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJNZlNoSWNqdG1peG9hVy01ekhfM0pBIiwiaWF0IjoxNzIxMDU2NzkzLCJleHAiOjE3MjEwNTY5MTN9.71F6RsUJ7BXrW-j7vNkhoowluzVmX9XKzvnKClyqXZY1",
             "name": "bob",
             "email": "bob1@example.com",
             "username": "BobTest1",
@@ -206,7 +222,7 @@ GET /api/users/custom?page=0&size=10&sortField=name&sortOrder=asc
         },
         {
             "id": 3,
-            "refreshToken": "generated_token_for_bobjones1",
+            "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJZWDJLLU1Yc2ktM0ZzIiwiaWF0IjoxNzIwOTcyMzk3LCJleHAiOjE3MjA5NzI1MTd9.x9LzfL3heDL1oqaLyJimQPlgTEN-tOilhB2jzCj6Z1k",
             "name": "Bob Jones",
             "email": "bob.jones@example.com",
             "username": "bobjones1",
@@ -273,7 +289,7 @@ GET /api/users?filterField=name&filterValue=John
         "name": "John Smith",
         "email": "john.smith@example.com",
         "username": "johnsmith",
-        "refresh_token": "generated_token_for_johnsmith"
+        "refresh_token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJZWDJLLU1Yc2ktM0ZzIiwiaWF0IjoxNzIwOTcyMzk3LCJleHAiOjE3MjA5NzI1MTd9.x9LzfL3heDL1oqaLyJimQPlgTEN-tOilhB2jzCj6Z1k"
       }
     ]
 
