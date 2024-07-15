@@ -21,7 +21,7 @@ import java.security.SecureRandom;
 import java.util.*;
 
 @RestController
-@RequestMapping({"/", "/api", "/api/users", "/api/users/insert"})
+@RequestMapping({"/", "/api", "/api/users", "/api/users/insert","api/forgot-password"})
 
 public class UserController {
 
@@ -83,11 +83,11 @@ public class UserController {
         if (!user.getPassword().matches("^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,50}$")) {
             throw new PasswordPatternValidationException("Invalid password format. It must contain at least one lowercase letter, one uppercase letter, one digit, and be between 8 and 50 characters long.");
         }
-        
+
         // Generate a signup token
         String signUpToken = generateSignUpToken(user.getUsername());
 
-        // Set the token in the user entity 
+        // Set the token in the user entity
         user.setRefreshToken(signUpToken);
 
         // Save the user
@@ -300,4 +300,47 @@ public class UserController {
             return jwtTokenUtil.generateToken(randomToken);
         }
     }
+
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Object> forgotPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        User user = userService.getUserByEmail(email);
+
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with the provided email not found.");
+        }
+
+        // Generate a reset token
+        String resetToken = generateForgotToken(user.getUsername());
+
+        // Store the reset token with the user's email
+        tokenMap.put(resetToken, user.getEmail());
+
+        // For simplicity, just print the token (you can implement email sending later)
+        System.out.println("Password reset token for " + email + ": " + resetToken);
+
+        return ResponseEntity.ok("Password reset token generated.");
+    }
+
+ 
+    private String generateForgotToken(String username) {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] randomBytes = new byte[6];
+        secureRandom.nextBytes(randomBytes);
+        return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+    }
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
