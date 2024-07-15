@@ -225,7 +225,7 @@ GET /api/users/custom?page=0&size=10&sortField=name&sortOrder=asc
         },
         {
             "id": 3,
-            "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJZWDJLLU1Yc2ktM0ZzIiwiaWF0IjoxNzIwOTcyMzk3LCJleHAiOjE3MjA5NzI1MTd9.x9LzfL3heDL1oqaLyJimQPlgTEN-tOilhB2jzCj6Z1k",
+            "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnTUZWRXZNcXlhMEhXaWs2bFQwY3BBIiwiaWF0IjoxNzIxMDU3ODY0LCJleHAiOjE3MjEwNTc5ODR9.zTkJIKIQY--GveNvqxW2mvvxI1od-K-j4kZhkBaELn4",
             "name": "Bob Jones",
             "email": "bob.jones@example.com",
             "username": "bobjones1",
