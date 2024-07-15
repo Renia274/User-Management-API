@@ -107,11 +107,14 @@ To initiate the process of resetting a user's password, send a POST request to /
     Content-Type: application/json
     
     {
-      "email": "user@example.com"
-      "password":""
+      "email": "test15@example.com"
+      "password":"TestUser125"
     }  
 **Example Response:**
-
+   
+    {
+    "resetToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSVzF1LWhKdU8tVzJqWS1kZmZSLVFiWk8tbXciLCJpYXQiOjE3MjEwNTc3MzQsImV4cCI6MTcyMTA1Nzg1NH0.ooZMGLlsGLtmzX4GKp9XwGOxcue6QAYU28szIxR5dUA"
+    }
 
 
 ## Retrieve User Information (GET /api/users/{id})
