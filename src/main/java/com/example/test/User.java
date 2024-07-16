@@ -31,6 +31,10 @@ public class User {
     @Pattern(regexp = "^(?=.*[a-z])(?=.*\\d)(?=.*[A-Z]).{8,50}$", message = "Invalid password format. It must contain at least one lowercase letter, one uppercase letter, one digit, and be between 8 and 50 characters long.")
     private String password;
 
+    @Column(name = "reset_token")
+    private String resetToken;
+
+
     public User() {
     }
 
@@ -89,4 +93,14 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
+    }
+
 }
