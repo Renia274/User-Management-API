@@ -20,7 +20,7 @@ import java.security.SecureRandom;
 import java.util.*;
 
 @RestController
-@RequestMapping({"/", "/api", "/api/users", "/api/users/insert","api/forgot-password"})
+@RequestMapping({"/", "/api", "/api/users", "/api/users/insert","api/users/forgot-password"})
 
 public class UserController {
 
@@ -314,21 +314,17 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
 
-        // Encode the new password
         String encodedPassword = passwordEncoder.encode(newPassword);
-
-        // Generate a reset token with hyphen readability
         String resetToken = generateResetToken(true);
 
-        // Store the reset token and encoded password in the user entity
         user.setResetToken(resetToken);
         user.setPassword(encodedPassword);
 
-        // Save the updated user entity
         userService.saveUser(user);
+        userService.sendResetLink(user, resetToken);
 
-        // Return the reset token in the response
         Map<String, Object> response = new HashMap<>();
+        response.put("message", "Reset link sent to email.");
         response.put("resetToken", resetToken);
 
         return ResponseEntity.ok(response);
