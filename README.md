@@ -113,7 +113,8 @@ To initiate the process of resetting a user's password, send a POST request to /
 **Example Response:**
    
     {
-    "resetToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJSVzF1LWhKdU8tVzJqWS1kZmZSLVFiWk8tbXciLCJpYXQiOjE3MjEwNTc3MzQsImV4cCI6MTcyMTA1Nzg1NH0.ooZMGLlsGLtmzX4GKp9XwGOxcue6QAYU28szIxR5dUA"
+    "message": "Reset link sent to email.",
+    "resetToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVSGhkLVRTZGgtMjZaSC1JSm03LWtWTGMtYkEiLCJpYXQiOjE3MjExNDM0NTgsImV4cCI6MTcyMTE0MzU3OH0.441inXOQxZAnQjHErMkTq2UNKNM3tSVkcSyqV6tI3IE"
     }
 
 
