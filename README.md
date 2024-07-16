@@ -303,3 +303,7 @@ Please note that the actual request and response formats may differ based on you
 The API includes input validation. If validation fails, appropriate error responses will be returned to the client.
 
 Please ensure that you provide valid data when creating or updating users to avoid validation errors.Also, you need to make a connection to your MySQL database.  
+
+## Management Endpoints
+
+The application includes management endpoints for monitoring and managing the application. These endpoints are exposed under the /admin path
