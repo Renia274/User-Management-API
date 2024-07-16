@@ -4,18 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+
+
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MockEmailService mockEmailService;
 
     @Autowired
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, MockEmailService mockEmailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.mockEmailService = mockEmailService;
     }
 
     /**
@@ -92,6 +100,24 @@ public class UserService {
 
         // Compare provided password with stored hashed password
         return passwordEncoder.matches(password, user.getPassword());
+    }
+
+
+
+    /**
+     * Get a user by email.
+     *
+     * @param email The email of the user to retrieve
+     * @return The user object if found, or null otherwise
+     */
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    
+
+    public void sendResetLink(User user, String resetToken) {
+        mockEmailService.sendResetLink(user.getEmail(), resetToken);
     }
 
 
